@@ -1,4 +1,4 @@
-const WebSocket = require('ws');
+const WebSocket = require('ws') , http = require('http').createServer().listen(8080), server = ws.attach(http);
 
 const wss = new WebSocket.Server({ port: 8080 });
 
