@@ -1,0 +1,10 @@
+var ws = new WebSocket('ws://localhost:8080');
+
+ws.onopen = function() {
+    console.log('WebSocket connection opened');
+    ws.send('Hello from WordPress');
+};
+
+ws.onmessage = function(event) {
+    console.log('Received:', event.data);
+};
