@@ -1,6 +1,6 @@
 const server = new WebSocket.Server();
 const wss = require('ws').createServer().listen(8080);
-server = ws.attach(wss);
+server.attach(wss);
 //const wss = require('https').createServer().listen(8080);
 // server = ws.attach(http);
 
