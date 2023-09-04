@@ -1,32 +1,29 @@
-const server = new WebSocket.Server();
-const wss = require('ws').createServer().listen(8080);
-server.attach(wss);
-//const wss = require('https').createServer().listen(8080);
-// server = ws.attach(http);
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
 
-//const wss = new WebSocket.Server({ port: 8080 });
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
 
-server.on('connection', ws => {
-    ws.on('message', message => {
-        console.log('Received:', message);
-        if (message.toString() === 'Hola') {   ws.send('Si funciona!');  }
+io.on('connection', (socket) => {
+    console.log('Cliente conectado');
+
+    // Escucha el evento 'mensaje' enviado por el cliente
+    socket.on('mensaje', (data) => {
+        console.log('Mensaje recibido:', data);
+
+        // Envía una respuesta al cliente
+        socket.emit('respuesta', '¡Mensaje recibido por el servidor!');
     });
 
-    ws.send('Hello from Node.js WebSocket server');
+    // Evento para desconexión del cliente
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
 });
 
-console.log('WebSocket server is running on ws://localhost:8080');
-
-
-// const WebSocket = require('ws');
-//   wss = new WebSocket.Server({port:8080});
-
-// wss.on('connection', function (socket) { 
-//   socket.on('message', function (msg) {
-//     console.log('Recibido: ', msg, '\n', 'Desde la IP: ', socket.upgradeReq.connection.remoteAddress);
-//     if (msg === 'Hola') {   socket.send('Si funciona!');  }
-//   });
-//    socket.on('close', function (code, desc) {
-//     console.log('Desconectado: ' + code + ' - ' + desc);
-//   });
-// });
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Servidor WebSocket iniciado en el puerto ${port}`);
+});
