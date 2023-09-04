@@ -1,8 +1,12 @@
-const WebSocket = require('ws')//; , http = require('https').createServer().listen(8080), server = ws.attach(http);
+const server = new WebSocket.Server();
+const wss = require('ws').createServer().listen(8080);
+server = ws.attach(wss);
+//const wss = require('https').createServer().listen(8080);
+// server = ws.attach(http);
 
-const wss = new WebSocket.Server({ port: 8080 });
+//const wss = new WebSocket.Server({ port: 8080 });
 
-wss.on('connection', ws => {
+server.on('connection', ws => {
     ws.on('message', message => {
         console.log('Received:', message);
         if (message.toString() === 'Hola') {   ws.send('Si funciona!');  }
