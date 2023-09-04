@@ -1,8 +1,11 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
+const cors = require('cors');
 
 const app = express();
+app.use(cors()); // Agrega esta línea antes de definir las rutas
+
 const server = http.createServer(app);
 const io = socketIO(server);
 
